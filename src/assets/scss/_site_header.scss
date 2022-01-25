@@ -1,0 +1,163 @@
+.site-header {
+	background: $black;
+	@include padding( 5rem 0 );
+}
+
+.navbar {
+	padding-right: $grid-gutter-width * .5;
+  padding-left: $grid-gutter-width * .5;
+
+	.navbar-brand,
+	.navbar-toggler {
+		position: relative;
+		z-index: 2100;
+	}
+}
+
+.navbar-brand {
+	flex: 0 0 50%;
+	max-width: 330px;
+
+	@include media-breakpoint-up( md ) {
+		flex: 0 0 26%;
+	}
+
+	svg {
+		fill: $primary;
+	}
+}
+
+.navbar-toggler {
+	border: 0;
+	background: none;
+	height: 21px;
+	@include rfs( 5.8rem, width );
+	padding: 15px;
+
+	.navbar-toggler-bar {
+		display: block;
+		width: 100%;
+		height: 1px;
+		background: $white;
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transition: margin-top 0.15s 0.15s linear, transform 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+
+		&:first-child {
+			margin-top: -6px;
+		}
+
+		&:last-child {
+			margin-top: 6px;
+		}
+
+		@include media-breakpoint-up( sm ) {
+
+			&:first-child {
+				margin-top: -8px;
+			}
+
+			&:last-child {
+				margin-top: 8px;
+			}
+
+		}
+	}
+}
+
+.main-menu-open {
+	.navbar-toggler {
+		.navbar-toggler-bar {
+			transform: rotate( -45deg );
+			transition: margin-top 0.15s linear, transform 0.15s 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+			&:first-child,
+			&:last-child {
+				margin-top: 0;
+				transform: rotate( 45deg );
+			}
+		}
+	}
+}
+
+.main-menu-collapse {
+	position: absolute;
+	z-index: 2000;
+	left: 0;
+	top: 0;
+	width: 100%;
+
+	.main-menu-container {
+		width: 100%;
+		min-height: 100vh;
+		background: $black;
+		transition: padding 0.1s linear;
+	}
+
+	@include media-breakpoint-up( lg ) {
+		position: relative;
+
+		.main-menu-container {
+			padding-top: 0 !important; // override inline css
+			padding-bottom: 0 !important; // override inline css
+			min-height: 1px;
+		}
+	}
+}
+
+.main-menu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	@include font-size( 5rem );
+	font-weight: $font-weight-medium;
+
+	li {
+		margin: 1rem 0;
+		text-align: center;
+	}
+
+	a:not(.btn) {
+		color: $white;
+		display: inline-block;
+		position: relative;
+		line-height: 1.2;
+
+		small {
+			display: block;
+			font-weight: $font-weight-bold;
+			font-size: 1.2rem;
+			color: $gray-400;
+			text-transform: uppercase;
+			letter-spacing: .2em;
+			line-height: 1;
+		}
+
+		&:before {
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 100%;
+			height: 2px;
+			width: 0;
+			background: $white;
+			transition: width .25s ease-in-out;
+		}
+
+		&:hover {
+			&:before {
+				width: 100%;
+			}
+		}
+	}
+
+	@include media-breakpoint-up( lg ) {
+		@include font-size( 2rem );
+
+		li {
+			text-align: left;
+		}
+	}
+}
+

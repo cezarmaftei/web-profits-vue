@@ -1,0 +1,432 @@
+//
+// Base styles
+//
+
+.btn {
+  display: inline-block;
+  font-family: $btn-font-family;
+  font-weight: $btn-font-weight;
+  line-height: $btn-line-height;
+  color: $body-color;
+  text-align: center;
+  text-decoration: if($link-decoration == none, null, none);
+  white-space: $btn-white-space;
+  vertical-align: middle;
+  cursor: if($enable-button-pointers, pointer, null);
+  user-select: none;
+  background-color: transparent;
+  border: $btn-border-width solid transparent;
+  @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-border-radius);
+  @include transition($btn-transition);
+
+  &:hover {
+    color: $body-color;
+    text-decoration: if($link-hover-decoration == underline, none, null);
+  }
+
+  .btn-check:focus + &,
+  &:focus {
+    outline: 0;
+    box-shadow: $btn-focus-box-shadow;
+  }
+
+  .btn-check:checked + &,
+  .btn-check:active + &,
+  &:active,
+  &.active {
+    @include box-shadow($btn-active-box-shadow);
+
+    &:focus {
+      @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
+    }
+  }
+
+  &:disabled,
+  &.disabled,
+  fieldset:disabled & {
+    pointer-events: none;
+    opacity: $btn-disabled-opacity;
+    @include box-shadow(none);
+  }
+}
+
+//
+// Alternate buttons
+//
+
+// scss-docs-start btn-variant-loops
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    @include button-variant($value, $value);
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .btn-outline-#{$color} {
+    @include button-outline-variant($value);
+  }
+}
+// scss-docs-end btn-variant-loops
+
+//
+// Link buttons
+//
+
+// Make a button look and behave like a link
+.btn-link {
+  font-weight: $font-weight-normal;
+  color: $btn-link-color;
+  text-decoration: $link-decoration;
+
+  &:hover {
+    color: $btn-link-hover-color;
+    text-decoration: $link-hover-decoration;
+  }
+
+  &:focus {
+    text-decoration: $link-hover-decoration;
+  }
+
+  &:disabled,
+  &.disabled {
+    color: $btn-link-disabled-color;
+  }
+
+  // No need for an active state here
+}
+
+//
+// Button Sizes
+//
+
+.btn-lg {
+  @include button-size($btn-padding-y-lg, $btn-padding-x-lg, $btn-font-size-lg, $btn-border-radius-lg);
+}
+
+.btn-sm {
+  @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm);
+}
+
+.btn-primary {
+  color: $white;
+  overflow: hidden;
+
+  &:before,
+  &:after {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    transform-origin: 0 100%;
+  }
+
+  &:before {
+    margin-right: 1.5rem;
+    background: icon-arrow($white);
+    transform: translateX(-500%) rotate(-45deg);
+    @include transition(transform 0.25s cubic-bezier(.75, .25, .13, .92));
+  }
+
+  &:after {
+    margin-left: 1.5rem;
+    background: icon-arrow($white);
+    @include transition(transform 0.15s 0.25s ease-out);
+  }
+
+  &:focus {
+    color: $white;
+  }
+
+  &:hover {
+    color: $white;
+    background: $primary;
+
+    &:before {
+      transform: translateX(0) rotate(-45deg);
+      @include transition(transform 0.25s 0.25s cubic-bezier(.75, .25, .13, .92));
+    }
+
+    &:after {
+      transform: translateX(500%) rotate(-45deg);
+      @include transition(transform 0.15s ease-out);
+    }
+  }
+}
+
+.btn-white {
+  color: $black;
+  background: $white;
+  border-color: $white;
+  overflow: hidden;
+
+  &:before,
+  &:after {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    transform-origin: 0 100%;
+  }
+
+  &:before {
+    margin-right: 1.5rem;
+    background: icon-arrow($black);
+    transform: translateX(-500%) rotate(-45deg);
+    @include transition(transform 0.25s cubic-bezier(.75, .25, .13, .92));
+  }
+
+  &:after {
+    margin-left: 1.5rem;
+    background: icon-arrow($black);
+    @include transition(transform 0.15s 0.25s ease-out);
+  }
+
+  &:hover {
+    color: $black;
+    background: $white;
+    border-color: $white;
+
+    &:before {
+      transform: translateX(0) rotate(-45deg);
+      @include transition(transform 0.25s 0.25s cubic-bezier(.75, .25, .13, .92));
+    }
+
+    &:after {
+      transform: translateX(500%) rotate(-45deg);
+      @include transition(transform 0.15s ease-out);
+    }
+  }
+}
+
+.btn-outline-secondary {
+  overflow: hidden;
+  background: $white;
+  color: $secondary;
+
+  &:before,
+  &:after {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    transform-origin: 0 100%;
+  }
+
+  &:before {
+    margin-right: 1.5rem;
+    background: icon-arrow($secondary);
+    transform: translateX(-500%) rotate(-45deg);
+    @include transition(transform 0.25s cubic-bezier(.75, .25, .13, .92));
+  }
+
+  &:after {
+    margin-left: 1.5rem;
+    background: icon-arrow($secondary);
+    @include transition(transform 0.15s 0.25s ease-out);
+  }
+
+  &:hover {
+    background: $white;
+    color: $secondary;
+
+    &:before {
+      transform: translateX(0) rotate(-45deg);
+      @include transition(transform 0.25s 0.25s cubic-bezier(.75, .25, .13, .92));
+    }
+
+    &:after {
+      transform: translateX(500%) rotate(-45deg);
+      @include transition(transform 0.15s ease-out);
+    }
+  }
+}
+
+.btn-outline-white {
+  overflow: hidden;
+  background: $black;
+  color: $white;
+  border-color: $white;
+
+  &:before,
+  &:after {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    transform-origin: 0 100%;
+  }
+
+  &:before {
+    margin-right: 1.5rem;
+    background: icon-arrow($white);
+    transform: translateX(-500%) rotate(-45deg);
+    @include transition(transform 0.25s cubic-bezier(.75, .25, .13, .92));
+  }
+
+  &:after {
+    margin-left: 1.5rem;
+    background: icon-arrow($white);
+    @include transition(transform 0.15s 0.25s ease-out);
+  }
+
+  &:hover {
+    background: $black;
+    color: $white;
+    border-color: $white;
+
+    &:before {
+      transform: translateX(0) rotate(-45deg);
+      @include transition(transform 0.25s 0.25s cubic-bezier(.75, .25, .13, .92));
+    }
+
+    &:after {
+      transform: translateX(500%) rotate(-45deg);
+      @include transition(transform 0.15s ease-out);
+    }
+  }
+}
+
+.btn-inline-link {
+  position: relative;
+  display: inline-block;
+  @include transition(all 0.25s cubic-bezier(.75, .25, .13, .92));
+
+  &:before {
+    content: "";
+    display: block;
+    height: 2px;
+    width: calc(100% - 2rem);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    @include transition(all 0.25s cubic-bezier(.75, .25, .13, .92));
+  }
+
+  &:after {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    margin-left: 1rem;
+    @include transition(transform 0.25s cubic-bezier(.75, .25, .13, .92));
+  }
+
+  &:hover {
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
+
+  &.primary {
+    color: $primary;
+
+    &:before {
+      background: $primary;
+    }
+
+    &:after {
+      background: icon-arrow($primary);
+    }
+
+    &:hover {
+      color: $primary;
+
+      &:before {
+        background: transparent;
+      }
+    }
+  }
+
+  &.secondary {
+    color: $secondary;
+
+    &:before {
+      background: $secondary;
+    }
+
+    &:after {
+      background: icon-arrow($secondary);
+    }
+
+    &:hover {
+      color: $secondary;
+
+      &:before {
+        background: transparent;
+      }
+    }
+  }
+}
+
+.btn-bullet {
+  position: relative;
+  font-size: 1.4rem;
+  padding: 0 1.7rem;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 2.6rem;
+  transition: all 0.25s cubic-bezier(.75, .25, .13, .92);
+
+  span {
+    display: block;
+    white-space: nowrap;
+    max-width: 0;
+    overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.75, 0.25, 0.13, 0.92);
+  }
+
+  &:after {
+    content: "";
+    display: block;
+    width: 0.7rem;
+    height: 4.1rem;
+    transition: all 0.25s cubic-bezier(0.75, 0.25, 0.13, 0.92);
+  }
+
+  &:hover,
+  &.btn-is-touch {
+    padding: 0 $input-btn-padding-x;
+
+    span {
+      max-width: 260px;
+    }
+
+    &:after {
+      margin-left: 1.5rem;
+      // transform: rotate(-45deg);
+      // font vertical metric fix
+      transform: translateY(0.1rem) rotate(-45deg);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: $btn-font-size;
+    padding: 0 2rem;
+    border-radius: 2.6rem;
+
+    &:after {
+      width: 1rem;
+      height: 5rem;
+
+      &:hover,
+      &.btn-is-touch {
+        // transform: rotate(-45deg);
+        // font vertical metric fix
+        transform: translateY(0.2rem) rotate(-45deg);
+      }
+    }
+  }
+}
+
+.btn-bullet-primary {
+  color: $white;
+  background: $primary;
+
+  &:after {
+    background: icon-arrow($white) no-repeat center center / 100% auto;
+  }
+
+  &:hover {
+    color: $white;
+  }
+}
