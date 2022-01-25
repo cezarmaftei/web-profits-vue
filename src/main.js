@@ -5,4 +5,4 @@ import { Collapse } from 'bootstrap'
 
 import '@/assets/css/global.css'
 
-createApp(App).use({ Collapse }).use(router).mount('#app')
+createApp(App).use({ Collapse }).use(router).mount('#webprofits-website')

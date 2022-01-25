@@ -7,6 +7,7 @@
 
       <button
         class="navbar-toggler d-lg-none ms-auto"
+        :class="{ 'menu-black': watchMenu }"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#main-menu-collapse"
@@ -30,45 +31,27 @@
             align-items-center
             justify-content-center justify-content-lg-end
           "
+          :style="mainMenuContainerStyle"
         >
           <ul
             class="main-menu d-flex flex-column flex-lg-row align-items-lg-end"
+            :class="{ 'menu-black': watchMenu }"
           >
-            <li>
+            <li v-for="menuItem in menuItems" :key="menuItem">
               <router-link
-                :to="{ name: 'Home Page', hash: '#section-services' }"
-                ><small>one goal</small>What we do</router-link
-              >
-            </li>
-            <li>
-              <router-link
-                :to="{ name: 'Home Page', hash: '#section-how-we-work' }"
-                ><small>one goal</small>How we work</router-link
-              >
-            </li>
-            <li>
-              <a href="#"><small>one team</small>Who we are</a>
-            </li>
-            <li>
-              <router-link :to="{ name: 'Home Page', hash: '#section-podcast' }"
-                ><small>one goal</small>Podcast</router-link
-              >
-            </li>
-            <li>
-              <router-link
-                class="btn btn-primary"
-                :to="{ name: 'Contact Page' }"
-                >Contact Us</router-link
+                :to="{ path: menuItem.path, hash: menuItem.hash }"
+                :class="{ 'btn btn-primary': menuItem.isButton }"
+                @click="closeMobileCollapse"
+                ><small v-if="menuItem.smallText">{{
+                  menuItem.smallText
+                }}</small
+                >{{ menuItem.title }}</router-link
               >
             </li>
           </ul>
 
           <ul class="list-unstyled row gx-1 mt-3 align-items-center d-lg-none">
-            <li
-              v-for="social in this.socialMedia"
-              :key="social"
-              class="col-auto"
-            >
+            <li v-for="social in socialMedia" :key="social" class="col-auto">
               <a
                 target="_blank"
                 rel="nofollow noopener"
@@ -95,7 +78,9 @@ import SvgIcons from '@/components/SvgIcons.vue'
 import SectionBannerHome from '@/components/SectionBannerHome.vue'
 import SectionBannerCaseStudies from '@/components/SectionBannerCaseStudies.vue'
 import SectionBannerSimple from '@/components/SectionBannerSimple.vue'
-import { inject, onMounted } from 'vue'
+import { inject, onMounted, ref, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
+import { Collapse } from 'bootstrap'
 
 export default {
   name: 'PageHeader',
@@ -106,55 +91,97 @@ export default {
     SectionBannerSimple
   },
   setup () {
+    // Social media data
+    const socialMedia = inject('socialMedia')
+
     // headerHeight is declared in App.vue AND
     // initiated in PageHeader.vue
     const headerHeight = inject('headerHeight')
 
     onMounted(() => {
+      // Update headerHeight
       headerHeight.value = document.getElementById('site-header').clientHeight
+
+      const mainMenuCollapse = document.getElementById('main-menu-collapse')
+
+      // Hamburger active class -> .main-menu-open
+      mainMenuCollapse.addEventListener('show.bs.collapse', function () {
+        document.getElementById('site-header').classList.add('main-menu-open')
+      })
+
+      mainMenuCollapse.addEventListener('hide.bs.collapse', function () {
+        document
+          .getElementById('site-header')
+          .classList.remove('main-menu-open')
+      })
     })
 
-    return { headerHeight }
-  },
-  data () {
-    return {
-      bannerPaddingTop: '0',
-      bannerContentMinHeight: '1px'
-    }
-  },
-  inject: ['socialMedia'],
-  mounted () {
-    // Set initial padding for .main-menu-container
-    this.setMobileMenuPaddings()
+    const route = useRoute()
+    const watchMenu = ref(null)
+    const mainMenuContainerStyle = ref(null)
 
-    //
-    // Hamburger active class -> .main-menu-open
-    //
-    const mainMenuCollapse = document.getElementById('main-menu-collapse')
+    watchEffect(() => {
+      // Swap between white and black menu with the .menu-black class
+      watchMenu.value = route.meta.banner === 'simple-page'
 
-    mainMenuCollapse.addEventListener('show.bs.collapse', function () {
-      document.getElementById('site-header').classList.add('main-menu-open')
-    })
-
-    mainMenuCollapse.addEventListener('hide.bs.collapse', function () {
-      document.getElementById('site-header').classList.remove('main-menu-open')
-    })
-  },
-  methods: {
-    setMobileMenuPaddings () {
-      const siteHeader = document.getElementById('site-header')
-      const mainMenuContainer = document.querySelector('.main-menu-container')
-      const vw = window.innerWidth
-      let siteHeaderHeight = '0px'
-
-      if (siteHeader && vw < 992) {
-        siteHeaderHeight = siteHeader.clientHeight
-
-        mainMenuContainer.style.paddingTop = siteHeaderHeight + 'px'
-        mainMenuContainer.style.paddingBottom = siteHeaderHeight / 2 + 'px'
-      } else {
-        mainMenuContainer.style = null
+      // Set mobile menu paddings
+      mainMenuContainerStyle.value = {
+        'padding-top': headerHeight.value + 'px',
+        'padding-bottom': headerHeight.value / 2 + 'px'
       }
+    })
+
+    const menuItems = [
+      {
+        path: '/',
+        hash: '#section-services',
+        smallText: 'one goal',
+        isButton: false,
+        title: 'What we do'
+      },
+      {
+        path: '/',
+        hash: '#section-how-we-work',
+        smallText: 'one process',
+        isButton: false,
+        title: 'How we work'
+      },
+      {
+        path: '/',
+        hash: '#section-who-we-are',
+        smallText: 'one team',
+        isButton: false,
+        title: 'Who we are'
+      },
+      {
+        path: '/',
+        hash: '#section-podcast',
+        smallText: false,
+        isButton: false,
+        title: 'Podcast'
+      },
+      {
+        path: '/contact',
+        hash: false,
+        smallText: false,
+        isButton: true,
+        title: 'Contact Us'
+      }
+    ]
+
+    const closeMobileCollapse = () => {
+      new Collapse(document.getElementById('main-menu-collapse'), {
+        hide: true
+      })
+    }
+
+    return {
+      socialMedia,
+      menuItems,
+      headerHeight,
+      watchMenu,
+      mainMenuContainerStyle,
+      closeMobileCollapse
     }
   }
 }
@@ -235,11 +262,18 @@ export default {
       }
     }
   }
+
+  &.menu-black {
+    .navbar-toggler-bar {
+      background: $black;
+    }
+  }
 }
 
 .main-menu-open {
   .navbar-toggler {
     .navbar-toggler-bar {
+      background: $white;
       transform: rotate(-45deg);
       transition: margin-top 0.15s linear,
         transform 0.15s 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -330,6 +364,22 @@ export default {
       height: 2px;
       width: 100%;
       background: $white;
+    }
+  }
+
+  &.menu-black {
+    @include media-breakpoint-up(lg) {
+      a:not(.btn) {
+        color: $black;
+
+        small {
+          color: $gray-700;
+        }
+
+        &:before {
+          background: $gray-300;
+        }
+      }
     }
   }
 
