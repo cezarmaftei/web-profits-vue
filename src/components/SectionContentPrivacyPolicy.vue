@@ -486,5 +486,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+.section-simple-content {
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @include margin(5rem 0 2rem)
+  }
+}
 </style>

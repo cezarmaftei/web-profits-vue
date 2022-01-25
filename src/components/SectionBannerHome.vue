@@ -21,8 +21,8 @@
           </h1>
           <p class="mb-10">
             You are looking to start growing, so
-            <a class="btn-inline-link primary" href="/contact"
-              >talk to us today</a
+            <router-link class="btn-inline-link primary" to="/contact"
+              >talk to us today</router-link
             >
           </p>
         </div>
