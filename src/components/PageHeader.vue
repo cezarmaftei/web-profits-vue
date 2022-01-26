@@ -1,5 +1,9 @@
 <template>
-  <header class="site-header" id="site-header">
+  <header
+    class="site-header"
+    :class="{ 'main-menu-open': siteHeaderCollapsed }"
+    id="site-header"
+  >
     <nav class="navbar container d-flex align-items-center">
       <router-link to="/" class="navbar-brand d-block"
         ><SvgIcons icon="logo-webprofits"
@@ -9,20 +13,14 @@
         class="navbar-toggler d-lg-none ms-auto"
         :class="{ 'menu-black': watchMenu }"
         type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#main-menu-collapse"
-        aria-expanded="false"
-        aria-controls="main-menu-collapse"
+        @click="toggleMobileMenu"
       >
         <span class="navbar-toggler-bar"></span>
         <span class="navbar-toggler-bar"></span>
         <span class="navbar-toggler-bar"></span>
       </button>
 
-      <div
-        class="collapse main-menu-collapse d-lg-flex"
-        id="main-menu-collapse"
-      >
+      <div class="collapse main-menu-collapse d-lg-flex" id="main-menu-collapse">
         <div
           class="
             main-menu-container
@@ -98,23 +96,41 @@ export default {
     // initiated in PageHeader.vue
     const headerHeight = inject('headerHeight')
 
+    const siteHeaderCollapsed = ref(null)
+    let mobileCollapse = null
+
     onMounted(() => {
       // Update headerHeight
       headerHeight.value = document.getElementById('site-header').clientHeight
 
-      const mainMenuCollapse = document.getElementById('main-menu-collapse')
+      // Main menu mobile collapse
+      mobileCollapse = new Collapse(
+        document.getElementById('main-menu-collapse'),
+        {
+          toggle: false
+        }
+      )
 
-      // Hamburger active class -> .main-menu-open
-      mainMenuCollapse.addEventListener('show.bs.collapse', function () {
-        document.getElementById('site-header').classList.add('main-menu-open')
-      })
+      document
+        .getElementById('main-menu-collapse')
+        .addEventListener('show.bs.collapse', function () {
+          siteHeaderCollapsed.value = true
+        })
 
-      mainMenuCollapse.addEventListener('hide.bs.collapse', function () {
-        document
-          .getElementById('site-header')
-          .classList.remove('main-menu-open')
-      })
+      document
+        .getElementById('main-menu-collapse')
+        .addEventListener('hide.bs.collapse', function () {
+          siteHeaderCollapsed.value = false
+        })
     })
+
+    const closeMobileCollapse = () => {
+      if (document.body.clientWidth < '992') mobileCollapse.hide()
+    }
+
+    const toggleMobileMenu = () => {
+      mobileCollapse.toggle(siteHeaderCollapsed)
+    }
 
     const route = useRoute()
     const watchMenu = ref(null)
@@ -169,19 +185,15 @@ export default {
       }
     ]
 
-    const closeMobileCollapse = () => {
-      new Collapse(document.getElementById('main-menu-collapse'), {
-        hide: true
-      })
-    }
-
     return {
       socialMedia,
       menuItems,
       headerHeight,
       watchMenu,
       mainMenuContainerStyle,
-      closeMobileCollapse
+      siteHeaderCollapsed,
+      closeMobileCollapse,
+      toggleMobileMenu
     }
   }
 }
