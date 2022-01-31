@@ -74,8 +74,6 @@ export default {
 
           // if sourceElements.value.sources[imgFileExt].length > 0 means there are other variants
           if (sourceElements.value.sources[imgFileExt].length > 0) {
-            console.log(imgFileName)
-            console.log('====')
             // Stringify source elements
             sourceElements.value.sources.webp =
               sourceElements.value.sources.webp.join(', ')

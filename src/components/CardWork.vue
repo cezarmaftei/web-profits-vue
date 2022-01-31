@@ -15,11 +15,12 @@
     <div class="card-content">
       <div class="container">
         <h2 class="mb-1" v-html="client.title"></h2>
-
+        <!--
         <div
           class="card-content-collapse collapse"
           v-html="client.content"
         ></div>
+        -->
       </div>
 
       <router-link

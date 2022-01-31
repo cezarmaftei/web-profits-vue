@@ -184,7 +184,7 @@ export default {
     font-weight: $font-weight-medium;
     color: $gray-500;
 
-    ::v-deep svg {
+    :deep svg {
       width: 2.2rem;
       height: auto;
       fill: $white;
@@ -204,7 +204,7 @@ export default {
       }
     }
 
-    ::v-deep {
+    :deep {
       .svg-icon {
         display: inline-block;
         max-width: 80%;

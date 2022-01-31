@@ -234,7 +234,7 @@ export default {
     flex: 0 0 26%;
   }
 
-  ::v-deep svg {
+  :deep svg {
     fill: $primary;
   }
 }
