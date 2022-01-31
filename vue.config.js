@@ -23,18 +23,27 @@ module.exports = {
   },
   configureWebpack() {
     // Additional config to be merged
-    return additionalConfig = {
-      plugins: [
-        new PurgecssPlugin({
-          paths: glob.sync([
-            path.join(__dirname, './src/index.html'),
-            path.join(__dirname, './src/**/*.vue'),
-            path.join(__dirname, './src/**/*.js')
-          ]),
-          fontFace: true
-        })
-      ]
+    let additionalConfig = {};
+    // Production config
+    if (process.env.NODE_ENV === 'production') {
+      additionalConfig = {
+        plugins: [
+          new PurgecssPlugin({
+            paths: glob.sync([
+              path.join(__dirname, './public/**/*.html'),
+              path.join(__dirname, './src/**/*.vue')
+            ]),
+            defaultExtractor(content) {
+              const contentWithoutStyleBlocks = content.replace(/<style[^]+?<\/style>/gi, '')
+              return contentWithoutStyleBlocks.match(/[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+/g) || []
+            },
+            safelist: [/-(leave|enter|appear)(|-(to|from|active))$/, /^(?!(|.*?:)cursor-move).+-move$/, /^router-link(|-exact)-active$/, /data-v-.*/],
+            fontFace: true
+          })
+        ]
+      }
     }
+    return additionalConfig
   },
   css: {
     loaderOptions: {
