@@ -116,7 +116,7 @@ export default {
       {
         episode: 43,
         title: 'How Super Coffee went from $0 to $400m valuation in 5 years',
-        image: '/images/img-podcast-jimmy-decicco.jpg',
+        image: 'img-podcast-jimmy-decicco.jpg',
         isNew: true,
         guestName: 'Jimmy DeCicco',
         link: '#'
@@ -124,7 +124,7 @@ export default {
       {
         episode: 42,
         title: 'How to develop a strategy that wins in competitive markets',
-        image: '/images/img-podcast-roger-martin.jpg',
+        image: 'img-podcast-roger-martin.jpg',
         isNew: false,
         guestName: 'Roger Martin',
         link: '#'
@@ -132,7 +132,7 @@ export default {
       {
         episode: 41,
         title: 'Shipping Creative Work with Seth Godin',
-        image: '/images/img-podcast-seth-godin.jpg',
+        image: 'img-podcast-seth-godin.jpg',
         isNew: false,
         guestName: 'Seth Godin',
         link: '#'

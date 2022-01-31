@@ -1,0 +1,6 @@
+{
+  "imgMaxWidths" : {
+    "_comments" : "Taken from assets/scss/_variables.scss -> $container-max-widths. After last breakpoint, define a size for really large screens - used mainly for full page backgrounds",
+    "value" : [540, 720, 960, 1140, 1460, 2600]
+  }
+}

@@ -20,7 +20,10 @@
         <span class="navbar-toggler-bar"></span>
       </button>
 
-      <div class="collapse main-menu-collapse d-lg-flex" id="main-menu-collapse">
+      <div
+        class="collapse main-menu-collapse d-lg-flex"
+        id="main-menu-collapse"
+      >
         <div
           class="
             main-menu-container
@@ -111,17 +114,15 @@ export default {
         }
       )
 
-      document
-        .getElementById('main-menu-collapse')
-        .addEventListener('show.bs.collapse', function () {
-          siteHeaderCollapsed.value = true
-        })
+      const mainMenuCollapse = document.getElementById('main-menu-collapse')
 
-      document
-        .getElementById('main-menu-collapse')
-        .addEventListener('hide.bs.collapse', function () {
-          siteHeaderCollapsed.value = false
-        })
+      mainMenuCollapse.addEventListener('show.bs.collapse', function () {
+        siteHeaderCollapsed.value = true
+      })
+
+      mainMenuCollapse.addEventListener('hide.bs.collapse', function () {
+        siteHeaderCollapsed.value = false
+      })
     })
 
     const closeMobileCollapse = () => {

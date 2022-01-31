@@ -1,7 +1,7 @@
 <template>
   <div class="card card-podcast">
     <a :href="content.link" class="card-graphic d-flex">
-      <img :alt="content.guestName" :src="content.image" />
+      <LoadImage :src="content.image" :alt="content.guestName" />
       <div class="logo-podcast">
         <SvgIcons icon="logo-the-growth-manifesto-podcast" />
       </div>
@@ -24,11 +24,13 @@
 </template>
 
 <script>
+import LoadImage from '@/components/LoadImage.vue'
 import SvgIcons from '@/components/SvgIcons.vue'
 
 export default {
   name: 'CardPodcast',
   components: {
+    LoadImage,
     SvgIcons
   },
   props: {
@@ -64,7 +66,7 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    @include transition(transform 0.5s cubic-bezier(.75, .25, .13, .92));
+    @include transition(transform 0.5s cubic-bezier(0.75, 0.25, 0.13, 0.92));
   }
 
   .card-graphic {
@@ -79,7 +81,7 @@ export default {
 
     &:hover {
       .btn-play {
-        transform: scale(1.1)
+        transform: scale(1.1);
       }
     }
   }

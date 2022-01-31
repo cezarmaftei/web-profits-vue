@@ -41,7 +41,7 @@ export default {
       {
         slug: 'logitech',
         name: 'Logitech',
-        backgroundImage: '/images/img-work-logitech.jpg',
+        backgroundImage: 'img-work-logitech.jpg',
         clientLogo: 'logo-logitech-blue',
         title: 'Transforming global <br />digital strategy',
         content:
@@ -50,7 +50,7 @@ export default {
       {
         slug: 'lj-hooker',
         name: 'LJ Hooker',
-        backgroundImage: '/images/img-work-lj-hooker.jpg',
+        backgroundImage: 'img-work-lj-hooker.jpg',
         clientLogo: 'logo-lj-hooker-coloured',
         title: '3x enquiries in 12 months',
         content:
@@ -59,7 +59,7 @@ export default {
       {
         slug: 'aussie-broadband',
         name: 'Aussie Broadband',
-        backgroundImage: '/images/img-work-aussie-broadband.jpg',
+        backgroundImage: 'img-work-aussie-broadband.jpg',
         clientLogo: 'logo-aussie-broadband-green',
         title: 'Boosting revenue from <br />$25m to $200m',
         content:

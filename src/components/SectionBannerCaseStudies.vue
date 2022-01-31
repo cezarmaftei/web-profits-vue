@@ -2,10 +2,14 @@
   <section
     :style="{
       'padding-top': `${headerHeight}px`,
-      'background-image': `url(${currentClient[0].backgroundImage})`,
     }"
     class="banner-case-study"
   >
+    <LoadImage
+      class="banner-background"
+      :src="currentClient[0].backgroundImage"
+      :alt="currentClient[0].name"
+    />
     <div
       class="container"
       :style="{ 'min-height': 'calc( 100vh - ' + headerHeight + 'px )' }"
@@ -28,12 +32,14 @@
 import { computed, inject, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
+import LoadImage from '@/components/LoadImage.vue'
 import SvgIcons from '@/components/SvgIcons.vue'
 
 export default {
   name: 'SectionBannerCaseStudies',
   components: {
-    SvgIcons
+    SvgIcons,
+    LoadImage
   },
   setup () {
     // headerHeight is declared in App.vue AND
@@ -83,6 +89,21 @@ export default {
 .banner-case-study {
   background-size: cover;
   background-position: center center;
+
+  .banner-background {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    :deep * {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
 
   .banner-content {
     color: $white;

@@ -19,7 +19,9 @@
 export default {
   name: 'SectionCTA',
   setup () {
-    const content = 'Start addressing your business growth problems with our digital marketing solutions.'
+    const content =
+      'Start addressing your business growth problems with our digital marketing solutions.'
+
     return { content }
   }
 }

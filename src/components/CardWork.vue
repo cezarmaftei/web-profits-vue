@@ -1,9 +1,9 @@
 <template>
   <div class="card card-work py-5 px-7">
-    <img
+    <LoadImage
       class="card-graphic"
       :src="client.backgroundImage"
-      :alt="'Work ' + client.name"
+      :alt="`Work ${client.name}`"
     />
 
     <div class="card-header">
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import LoadImage from '@/components/LoadImage.vue'
 import SvgIcons from '@/components/SvgIcons.vue'
 
 export default {
@@ -42,6 +43,7 @@ export default {
     client: Object
   },
   components: {
+    LoadImage,
     SvgIcons
   },
   computed: {
@@ -92,7 +94,12 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+
+    :deep * {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   .card-header,
