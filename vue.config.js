@@ -31,13 +31,14 @@ module.exports = {
           new PurgecssPlugin({
             paths: glob.sync([
               path.join(__dirname, './public/**/*.html'),
-              path.join(__dirname, './src/**/*.vue')
+              path.join(__dirname, './src/**/*.vue'),
+              path.join(__dirname, './src/**/*.js')
             ]),
             defaultExtractor(content) {
               const contentWithoutStyleBlocks = content.replace(/<style[^]+?<\/style>/gi, '')
               return contentWithoutStyleBlocks.match(/[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+/g) || []
             },
-            // safelist: [/-(leave|enter|appear)(|-(to|from|active))$/, /^(?!(|.*?:)cursor-move).+-move$/, /^router-link(|-exact)-active$/, /data-v-.*/],
+            safelist: [/-(leave|enter|appear)(|-(to|from|active))$/, /^(?!(|.*?:)cursor-move).+-move$/, /^router-link(|-exact)-active$/, /data-v-.*/],
             fontFace: true
           })
         ]
