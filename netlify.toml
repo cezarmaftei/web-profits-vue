@@ -1,3 +1,5 @@
+baseurl = "/"
+
 [[headers]]
   for = "/*"
   [headers.values]
