@@ -12,7 +12,7 @@
   </router-view>
 
   <PageFooter />
-  <ThemeFonts />
+  <!-- <ThemeFonts /> -->
 </template>
 
 <script>
