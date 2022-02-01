@@ -373,7 +373,7 @@ export default {
       content: "";
       position: absolute;
       left: 0;
-      bottom: $input-btn-padding-y / 2;
+      bottom: calc($input-btn-padding-y / 2);
       height: 2px;
       width: 100%;
       background: $white;
