@@ -4,6 +4,7 @@ import router from './router'
 import picturefill from 'picturefill'
 
 import '@/assets/css/global.css'
+import '@/assets/css/fonts.css'
 
 createApp(App)
   .use(picturefill)

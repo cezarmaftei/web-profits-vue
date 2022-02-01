@@ -16,13 +16,14 @@
 </template>
 
 <script>
-import { defineAsyncComponent, ref, provide } from 'vue'
+// import { defineAsyncComponent, ref, provide } from 'vue'
+import { ref, provide } from 'vue'
 
 // @ is an alias to /src
 import PageHeader from '@/components/PageHeader.vue'
 import PageFooter from '@/components/PageFooter.vue'
 
-const ThemeFonts = defineAsyncComponent(() => import('@/assets/css/fonts.css'))
+// const ThemeFonts = defineAsyncComponent(() => import('@/assets/css/fonts.css'))
 
 export default {
   name: 'Home',
