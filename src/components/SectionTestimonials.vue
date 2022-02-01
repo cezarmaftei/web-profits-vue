@@ -5,10 +5,9 @@
         <div class="row">
           <div class="col-12">
             <div
+              ref="testimonialsCarousel"
               id="testimonialsCarousel"
               class="carousel slide"
-              data-bs-ride="carousel"
-              data-bs-interval="3000"
             >
               <div class="carousel-inner">
                 <div
@@ -69,6 +68,8 @@
 
 <script>
 import SvgIcons from '@/components/SvgIcons.vue'
+import { Carousel } from 'bootstrap'
+import { onMounted, ref } from 'vue'
 
 export default {
   name: 'SectionTestimonials',
@@ -76,6 +77,8 @@ export default {
     SvgIcons
   },
   setup () {
+    const testimonialsCarousel = ref(null)
+
     const testimonials = [
       {
         logo: 'logo-logitech',
@@ -206,7 +209,17 @@ export default {
         company: 'Outforce'
       }
     ]
-    return { testimonials }
+
+    onMounted(() => {
+      const carousel = new Carousel(testimonialsCarousel.value, {
+        ride: 'carousel',
+        interval: 5000
+      })
+
+      carousel.cycle()
+    })
+
+    return { testimonials, testimonialsCarousel }
   }
 }
 </script>

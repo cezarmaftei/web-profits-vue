@@ -1,14 +1,17 @@
 <template>
-  <picture v-if="sourceElements.default" class="lazy-loaded">
+  <picture
+    v-if="sourceElements.default"
+    class="lazy-loading-image"
+  >
     <source
       v-for="(srcset, ext) in sourceElements.sources"
       :key="ext"
       :srcset="srcset"
       :type="`image/${ext}`"
     />
-    <img :alt="alt" :src="sourceElements.default" />
+    <img @load="loadHandler" :alt="alt" :src="sourceElements.default" />
   </picture>
-  <div v-else ref="lazyElement" class="lazy-img-loading" :data-src="src" />
+  <div v-else ref="observedElement" :data-lazy-src="src" />
 </template>
 
 <script>
@@ -39,6 +42,8 @@ export default {
         [imgFileExt]: []
       }
     })
+
+    // const lazyLoadedElement = ref(null)
 
     const loadImages = (entries, observer) => {
       entries.forEach((entry) => {
@@ -84,12 +89,17 @@ export default {
               webp: require(`@/assets/images/${imgFileName}.webp`)
             }
           }
+          /*
+          lazyLoadedElement.value.addEventListener('load', () => {
+            lazyLoadedElement.value.classList.add('loaded')
+          })
+          */
         }
       })
     }
 
-    // The lazy-load element
-    const lazyElement = ref(null)
+    // The lazy-loading-image element
+    const observedElement = ref(null)
 
     onMounted(() => {
       // Observe
@@ -100,13 +110,25 @@ export default {
       }
       const observer = new IntersectionObserver(loadImages, observerOptions)
 
-      observer.observe(lazyElement.value)
+      observer.observe(observedElement.value)
     })
 
-    return { globalConfig, sourceElements, lazyElement }
+    const loadHandler = (event) => {
+      event.target.parentNode.classList.add('lazy-loaded-complete')
+    }
+
+    return { globalConfig, sourceElements, observedElement, loadHandler }
   }
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+.lazy-loading-image {
+  opacity: 0;
+  @include transition(opacity .5s ease-out);
+
+  &.lazy-loaded-complete {
+    opacity: 1;
+  }
+}
 </style>
