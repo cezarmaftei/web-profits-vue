@@ -1,11 +1,11 @@
 <template>
   <section
-    class="banner-contact"
+    class="banner-simple mt-10"
     :style="{
       'padding-top': `${headerHeight}px`,
     }"
   >
-    <div class="container">
+    <div class="container container-sm">
       <div
         v-html="bannerContent"
         class="

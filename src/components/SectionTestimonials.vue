@@ -9,7 +9,7 @@
               id="testimonialsCarousel"
               class="carousel slide"
             >
-              <div class="carousel-inner">
+              <div class="carousel-inner" :style="carouselStyle">
                 <div
                   class="carousel-item"
                   :class="{ active: index == 0 }"
@@ -69,7 +69,7 @@
 <script>
 import SvgIcons from '@/components/SvgIcons.vue'
 import { Carousel } from 'bootstrap'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 export default {
   name: 'SectionTestimonials',
@@ -78,6 +78,9 @@ export default {
   },
   setup () {
     const testimonialsCarousel = ref(null)
+    const carouselStyle = ref({
+      height: 'auto'
+    })
 
     const testimonials = [
       {
@@ -210,16 +213,35 @@ export default {
       }
     ]
 
+    let carousel = null
+
     onMounted(() => {
-      const carousel = new Carousel(testimonialsCarousel.value, {
+      // Initiate carousel
+      carousel = new Carousel(testimonialsCarousel.value, {
         ride: 'carousel',
         interval: 5000
       })
 
+      carouselStyle.value.height = `${testimonialsCarousel.value.clientHeight}px`
+
+      // Start carousel autoplay
       carousel.cycle()
+
+      // Autoheight
+      testimonialsCarousel.value.addEventListener(
+        'slid.bs.carousel',
+        function (event) {
+          carouselStyle.value.height = `${event.relatedTarget.clientHeight}px`
+        }
+      )
     })
 
-    return { testimonials, testimonialsCarousel }
+    onUnmounted(() => {
+      // Destroy carousel
+      carousel.dispose()
+    })
+
+    return { testimonials, testimonialsCarousel, carouselStyle }
   }
 }
 </script>
@@ -281,6 +303,10 @@ export default {
     h6 {
       color: $black;
     }
+  }
+
+  .carousel-inner {
+    @include transition(height 0.5s ease-out);
   }
 }
 </style>

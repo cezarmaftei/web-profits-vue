@@ -11,13 +11,18 @@
         <div class="banner-fix mb-auto"></div>
         <div class="banner-top">
           <h1 class="mb-5">
-            Digital growth for
-            <small
-              ><span id="headline-text-swap"></span
-              ><span class="headline-cursor" :class="{ invisible: hideCursor }"
-                >&nbsp;</span
-              ></small
-            >
+            Digital growth for <br />
+            <small :style="{ height: `${headlineHeight}px` }">
+              <span
+                ref="textSwapWrapper"
+                class="text-swap-wrapper d-inline-block"
+              >
+                <span
+                  class="headline-text-swap d-inline-block"
+                  id="headline-text-swap"
+                ></span>
+              </span>
+            </small>
           </h1>
           <p class="mb-10">
             You are looking to start growing, so
@@ -48,7 +53,7 @@
 </template>
 
 <script>
-import { inject, ref, onMounted } from 'vue'
+import { inject, ref, onMounted, onBeforeUnmount } from 'vue'
 import { gsap } from 'gsap'
 import { TextPlugin } from 'gsap/TextPlugin.js'
 
@@ -78,64 +83,72 @@ export default {
       'funded startups.'
     ]
 
-    onMounted(() => {
-      const repeatDelay = 3
-      const headlineTextTimeline = gsap.timeline({
-        defaults: {
-          repeat: 0,
-          ease: 'none',
-          repeatDelay: repeatDelay,
-          duration: 0.5,
-          yoyo: true
-        }
+    const headlineHeight = ref('none')
+    const textSwapWrapper = ref(null)
+
+    const headlineTl = gsap
+      .timeline({
+        repeat: -1
       })
+      .pause()
 
-      // Show the cursor fo 1 second after load
-      setTimeout(() => {
-        hideCursor.value = true
+    onMounted(() => {
+      // Initial height - add an extra 10px because letters like "g" could be cut
+      headlineHeight.value = textSwapWrapper.value.clientHeight + 10
 
-        for (let $i = 0; $i <= headlineTextSwaps.length; $i++) {
-          if (headlineTextSwaps[$i]) {
-            headlineTextTimeline.to('#headline-text-swap', {
-              delay: $i === 0 ? 0 : 3,
-              text: {
-                value: headlineTextSwaps[$i]
-              }
-            })
-          } else {
-            // hack to delay the animation restart with 3 seconds
-            headlineTextTimeline.set('#headline-text-swap', {
-              delay: 3,
-              text: {
-                value: headlineTextSwaps[$i - 1]
-              }
-            })
+      setTimeout(function () {
+        headlineTl.play()
+        // hideCursor.value = true
+      }, 1500)
+
+      headlineTextSwaps.forEach((headline) => {
+        const currentTl = gsap.timeline({
+          repeat: 1,
+          yoyo: true,
+          repeatDelay: 3,
+          onUpdate: () => {
+            if (headlineHeight.value < textSwapWrapper.value.clientHeight) {
+              headlineHeight.value = textSwapWrapper.value.clientHeight + 10
+            }
+          },
+          onComplete: () => {
+            if (headlineHeight.value > textSwapWrapper.value.clientHeight) {
+              headlineHeight.value = textSwapWrapper.value.clientHeight + 10
+            }
           }
-        }
+        })
+        currentTl.to('#headline-text-swap', { duration: 1, text: headline })
+        headlineTl.add(currentTl)
+      })
+    })
 
-        setTimeout(() => {
-          headlineTextTimeline.repeat(-1)
-        }, repeatDelay * 1000)
-      }, 1000)
+    onBeforeUnmount(() => {
+      headlineTl.pause()
     })
 
     // headerHeight is declared in App.vue AND
     // initiated in PageHeader.vue
     const headerHeight = inject('headerHeight')
 
-    return { headerHeight, hideCursor, clientLogos }
+    return {
+      headerHeight,
+      headlineHeight,
+      textSwapWrapper,
+      hideCursor,
+      clientLogos
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@keyframes cursor {
-  from {
-    opacity: 1;
-  }
-
+@keyframes blink {
+  from,
   to {
-    opacity: 0;
+    color: transparent;
+  }
+  50% {
+    color: $white;
   }
 }
 
@@ -165,12 +178,23 @@ export default {
   background: radial-gradient(at 15% 20%, #252727, #131515);
   color: $white;
 
+  .headline-text-swap {
+    &:after {
+      content: "_";
+      display: inline-block;
+      animation: blink 0.75s linear infinite;
+    }
+  }
+
   h1 {
     @include font-size(14rem);
 
     small {
       display: block;
       @include font-size(13rem);
+      line-height: 1.2;
+      overflow: hidden;
+      @include transition(height 0.25s linear);
     }
   }
 
@@ -213,13 +237,6 @@ export default {
         fill: $white;
       }
     }
-  }
-
-  .headline-cursor {
-    display: inline-block;
-    width: 4px;
-    background: $white;
-    animation: cursor 0.7s cubic-bezier(0.75, 0.25, 0.13, 0.92) infinite;
   }
 
   .icon-mouse {
