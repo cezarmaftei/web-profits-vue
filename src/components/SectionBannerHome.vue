@@ -123,7 +123,7 @@ export default {
     })
 
     onBeforeUnmount(() => {
-      headlineTl.pause()
+      headlineTl.clear()
     })
 
     // headerHeight is declared in App.vue AND
