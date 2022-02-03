@@ -86,20 +86,22 @@ export default {
     const headlineHeight = ref('none')
     const textSwapWrapper = ref(null)
 
+    // Main timeline
     const headlineTl = gsap
       .timeline({
         repeat: -1
       })
       .pause()
 
-    onMounted(() => {
-      headlineTl.clear()
+    // Child timeline
+    let childTl = null
 
+    onMounted(() => {
       // Initial height - add an extra 10px because letters like "g" could be cut
       headlineHeight.value = textSwapWrapper.value.clientHeight + 10
 
       headlineTextSwaps.forEach((headline) => {
-        const currentTl = gsap.timeline({
+        childTl = gsap.timeline({
           repeat: 1,
           yoyo: true,
           repeatDelay: 3,
@@ -114,8 +116,9 @@ export default {
             }
           }
         })
-        currentTl.to('#headline-text-swap', { duration: 1, text: headline })
-        headlineTl.add(currentTl)
+
+        childTl.to('#headline-text-swap', { duration: 1, text: headline })
+        headlineTl.add(childTl)
       })
 
       setTimeout(() => {
@@ -125,6 +128,7 @@ export default {
 
     onBeforeUnmount(() => {
       headlineTl.clear()
+      childTl.clear()
     })
 
     // headerHeight is declared in App.vue AND
