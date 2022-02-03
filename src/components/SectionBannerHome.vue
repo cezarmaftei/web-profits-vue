@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { inject, ref, onMounted } from 'vue'
+import { inject, ref, onMounted, onBeforeUnmount } from 'vue'
 import { gsap } from 'gsap'
 import { TextPlugin } from 'gsap/TextPlugin.js'
 
@@ -86,12 +86,14 @@ export default {
     const headlineHeight = ref('none')
     const textSwapWrapper = ref(null)
 
-    const headlineTl = gsap.timeline({
-      repeat: -1
-    })
+    let headlineTl = null
 
     onMounted(() => {
-      headlineTl.clear()
+      headlineTl = gsap
+        .timeline({
+          repeat: -1
+        })
+        .pause()
 
       // Initial height - add an extra 10px because letters like "g" could be cut
       headlineHeight.value = textSwapWrapper.value.clientHeight + 10
@@ -116,11 +118,13 @@ export default {
         headlineTl.add(currentTl)
       })
 
-      headlineTl.pause()
-
       setTimeout(() => {
         headlineTl.resume()
       }, 1500)
+    })
+
+    onBeforeUnmount(() => {
+      headlineTl.clear()
     })
 
     // headerHeight is declared in App.vue AND
