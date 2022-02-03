@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { inject, ref, onMounted, onBeforeUnmount } from 'vue'
+import { inject, ref, onMounted, onUnmounted } from 'vue'
 import { gsap } from 'gsap'
 import { TextPlugin } from 'gsap/TextPlugin.js'
 
@@ -122,7 +122,7 @@ export default {
       })
     })
 
-    onBeforeUnmount(() => {
+    onUnmounted(() => {
       headlineTl.clear()
     })
 
