@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { inject, ref, onMounted, onUnmounted } from 'vue'
+import { inject, ref, onMounted, onBeforeUnmount } from 'vue'
 import { gsap } from 'gsap'
 import { TextPlugin } from 'gsap/TextPlugin.js'
 
@@ -96,11 +96,6 @@ export default {
       // Initial height - add an extra 10px because letters like "g" could be cut
       headlineHeight.value = textSwapWrapper.value.clientHeight + 10
 
-      setTimeout(function () {
-        headlineTl.play()
-        // hideCursor.value = true
-      }, 1500)
-
       headlineTextSwaps.forEach((headline) => {
         const currentTl = gsap.timeline({
           repeat: 1,
@@ -120,9 +115,13 @@ export default {
         currentTl.to('#headline-text-swap', { duration: 1, text: headline })
         headlineTl.add(currentTl)
       })
+
+      setTimeout(() => {
+        headlineTl.resume()
+      }, 1500)
     })
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       headlineTl.clear()
     })
 
