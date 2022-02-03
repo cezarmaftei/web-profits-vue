@@ -86,14 +86,14 @@ export default {
     const headlineHeight = ref('none')
     const textSwapWrapper = ref(null)
 
-    let headlineTl = null
+    const headlineTl = gsap
+      .timeline({
+        repeat: -1
+      })
+      .pause()
 
     onMounted(() => {
-      headlineTl = gsap
-        .timeline({
-          repeat: -1
-        })
-        .pause()
+      headlineTl.clear()
 
       // Initial height - add an extra 10px because letters like "g" could be cut
       headlineHeight.value = textSwapWrapper.value.clientHeight + 10
