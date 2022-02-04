@@ -80,20 +80,22 @@ export default {
           // exit loop
           break
         }
+      }
 
-        sourceElements.value.default = require(`@/assets/images/${props.src}`)
+      // Set default value
+      sourceElements.value.default = require(`@/assets/images/${props.src}`)
 
-        // if sourceElements.value.sources[imgFileExt].length > 0 means there are other variants
-        if (sourceElements.value.sources[imgFileExt].length > 0) {
-          // Stringify source elements
-          sourceElements.value.sources.webp =
-            sourceElements.value.sources.webp.join(', ')
-          sourceElements.value.sources[imgFileExt] =
-            sourceElements.value.sources[imgFileExt].join(', ')
-        } else {
-          sourceElements.value.sources = {
-            webp: require(`@/assets/images/${imgFileName}.webp`)
-          }
+      // if sourceElements.value.sources[imgFileExt].length > 0 means there are other variants
+      if (sourceElements.value.sources[imgFileExt].length > 0) {
+        // Stringify source elements
+        sourceElements.value.sources.webp =
+          sourceElements.value.sources.webp.join(', ')
+        sourceElements.value.sources[imgFileExt] =
+          sourceElements.value.sources[imgFileExt].join(', ')
+      } else {
+        // Set default .webp value
+        sourceElements.value.sources = {
+          webp: require(`@/assets/images/${imgFileName}.webp`)
         }
       }
     }
@@ -106,11 +108,13 @@ export default {
     const loadImages = (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // Unobserve
-          observer.unobserve(entry.target)
-
           // Load images
           getImages()
+
+          console.log(sourceElements.value.sources.webp)
+
+          // Unobserve
+          observer.unobserve(entry.target)
         }
       })
     }
