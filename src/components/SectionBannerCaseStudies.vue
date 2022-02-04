@@ -9,6 +9,7 @@
       class="banner-background"
       :src="currentClient[0].backgroundImage"
       :alt="currentClient[0].name"
+      :lazy="false"
     />
     <div
       class="container"

@@ -18,6 +18,7 @@
                 class="text-swap-wrapper d-inline-block"
               >
                 <span
+                  ref="headlineTextSwap"
                   class="headline-text-swap d-inline-block"
                   id="headline-text-swap"
                 ></span>
@@ -85,6 +86,7 @@ export default {
 
     const headlineHeight = ref('none')
     const textSwapWrapper = ref(null)
+    const headlineTextSwap = ref(null)
 
     const headlineTl = gsap
       .timeline({
@@ -124,7 +126,7 @@ export default {
 
     onBeforeUnmount(() => {
       headlineTl.clear()
-      document.getElementById('headline-text-swap').textContent = null
+      headlineTextSwap.value.textContent = null
     })
 
     // headerHeight is declared in App.vue AND
@@ -134,6 +136,7 @@ export default {
     return {
       headerHeight,
       headlineHeight,
+      headlineTextSwap,
       textSwapWrapper,
       hideCursor,
       clientLogos
