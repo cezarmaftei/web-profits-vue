@@ -33,8 +33,8 @@
           </p>
 
           <v-lazy-image :srcset="fallbackImage" alt="Fallback" use-picture>
-            <source :srcset="webpSrcset" type="image/jpg" />
-            <source :srcset="defaultSrcset" type="image/webp" />
+            <source :srcset="webpSrcset" type="image/webp" />
+            <source :srcset="defaultSrcset" type="image/jpg" />
           </v-lazy-image>
         </div>
         <div class="banner-bottom d-flex flex-column mt-auto">
