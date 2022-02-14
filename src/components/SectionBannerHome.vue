@@ -31,11 +31,6 @@
               >talk to us today</router-link
             >
           </p>
-
-          <v-lazy-image :src="fallbackImage" alt="Fallback" use-picture>
-            <source :srcset="webpSrcset" type="image/webp" />
-            <source :srcset="defaultSrcset" type="image/jpg" />
-          </v-lazy-image>
         </div>
         <div class="banner-bottom d-flex flex-column mt-auto">
           <div class="scroll-down d-flex align-items-center ms-auto">
@@ -63,7 +58,6 @@ import { inject, ref, onMounted, onBeforeUnmount } from 'vue'
 import { gsap } from 'gsap'
 import { TextPlugin } from 'gsap/TextPlugin.js'
 
-import VLazyImage from 'v-lazy-image'
 import SvgIcons from '@/components/SvgIcons.vue'
 
 gsap.registerPlugin(TextPlugin)
@@ -140,33 +134,13 @@ export default {
     // initiated in PageHeader.vue
     const headerHeight = inject('headerHeight')
 
-    // V Lazy Image data
-    const fallbackImage = require('@/assets/images/img-work-logitech.jpg')
-    const defaultSrcset =
-      require('@/assets/images/img-work-logitech-w540.jpg') +
-      ' w540,' +
-      require('@/assets/images/img-work-logitech-w720.jpg') +
-      ' w720,' +
-      require('@/assets/images/img-work-logitech-w960.jpg') +
-      ' w960'
-    const webpSrcset =
-      require('@/assets/images/img-work-logitech-w540.webp') +
-      ' w540,' +
-      require('@/assets/images/img-work-logitech-w720.webp') +
-      ' w720,' +
-      require('@/assets/images/img-work-logitech-w960.webp') +
-      ' w960'
-
     return {
       headerHeight,
       headlineHeight,
       headlineTextSwap,
       textSwapWrapper,
       hideCursor,
-      clientLogos,
-      fallbackImage,
-      defaultSrcset,
-      webpSrcset
+      clientLogos
     }
   }
 }

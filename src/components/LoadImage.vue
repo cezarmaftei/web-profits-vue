@@ -111,8 +111,6 @@ export default {
           // Load images
           getImages()
 
-          console.log(sourceElements.value.sources.webp)
-
           // Unobserve
           observer.unobserve(entry.target)
         }
