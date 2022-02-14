@@ -65,8 +65,7 @@ gsap.registerPlugin(TextPlugin)
 export default {
   name: 'Banner',
   components: {
-    SvgIcons,
-    VLazyImage
+    SvgIcons
   },
   setup () {
     const clientLogos = ref([
