@@ -32,7 +32,7 @@
             >
           </p>
 
-          <v-lazy-image :srcset="fallbackImage" alt="Fallback" use-picture>
+          <v-lazy-image :src="fallbackImage" alt="Fallback" use-picture>
             <source :srcset="webpSrcset" type="image/webp" />
             <source :srcset="defaultSrcset" type="image/jpg" />
           </v-lazy-image>
