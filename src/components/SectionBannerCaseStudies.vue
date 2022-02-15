@@ -11,15 +11,12 @@
       :alt="currentClient[0].name"
       :lazy="false"
     />
-    <div
-      class="container"
-      :style="{ 'min-height': 'calc( 100vh - ' + headerHeight + 'px )' }"
-    >
+    <div class="container">
       <div
         :style="{
           'min-height': 'calc( 100vh - ' + headerHeight + 'px )',
         }"
-        class="banner-content d-flex flex-column justify-content-center py-7"
+        class="banner-content d-flex flex-column justify-content-center pb-7"
       >
         <SvgIcons class="mb-5" :icon="currentClient[0].clientLogo" />
 
@@ -88,9 +85,9 @@ export default {
 
 <style scoped lang="scss">
 .banner-case-study {
+  position: relative;
   background-size: cover;
   background-position: center center;
-  min-height: -webkit-fill-available;
 
   .banner-background {
     position: absolute;
@@ -111,6 +108,8 @@ export default {
     color: $white;
     opacity: 0;
     transition: opacity 1.5s ease-out;
+    position: relative;
+    z-index: 2200;
 
     &.banner-fade-in {
       opacity: 1;
