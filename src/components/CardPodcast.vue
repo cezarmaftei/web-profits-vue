@@ -73,7 +73,8 @@ export default {
     position: relative;
     height: 18rem;
 
-    img {
+    picture,
+    :deep img {
       width: 100%;
       height: 100%;
       object-fit: cover;

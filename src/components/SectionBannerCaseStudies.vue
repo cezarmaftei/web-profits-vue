@@ -108,8 +108,6 @@ export default {
     color: $white;
     opacity: 0;
     transition: opacity 1.5s ease-out;
-    position: relative;
-    z-index: 2200;
 
     &.banner-fade-in {
       opacity: 1;
