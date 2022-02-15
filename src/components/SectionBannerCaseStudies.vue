@@ -90,6 +90,7 @@ export default {
 .banner-case-study {
   background-size: cover;
   background-position: center center;
+  min-height: -webkit-fill-available;
 
   .banner-background {
     position: absolute;
